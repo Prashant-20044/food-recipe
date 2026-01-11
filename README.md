@@ -6,7 +6,7 @@ A full-stack, responsive web platform designed for culinary enthusiasts to disco
 
 ## 📸 Screenshots
 
-![Landing Page](https://via.placeholder.com/800x400?text=Food+Recipe+Landing+Page)
+![Landing Page](https://github.com/Prashant-20044/food-recipe/blob/main/Screenshot%202026-01-11%20221841.png)
 *Landing page featuring the "Share your recipe" call-to-action.*
 
 ![Recipe Dashboard](https://via.placeholder.com/800x400?text=Recipe+Dashboard)
