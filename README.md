@@ -22,9 +22,9 @@ A full-stack, responsive web platform designed for culinary enthusiasts to disco
 ## ✨ Features
 
 * **Recipe Discovery:** Browse a diverse collection of recipes with detailed metadata such as preparation and cook times.
-* **User Authentication:** Secure login and sign-up functionality for a personalized user experience[cite: 14].
+* **User Authentication:** Secure login and sign-up functionality for a personalized user experience.
 * **Recipe Management:** Users can add, edit, and delete their own recipes, and save others to a "Favorites" list.
-* **Responsive Design:** Optimized for a seamless experience across mobile, tablet, and desktop devices[cite: 14].
+* **Responsive Design:** Optimized for a seamless experience across mobile, tablet, and desktop devices.
 * **Search & Filter:** Find recipes easily based on categories or ingredients.
 
 ---
