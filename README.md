@@ -33,11 +33,11 @@ A full-stack, responsive web platform designed for culinary enthusiasts to disco
 
 This project utilizes the **MERN** stack and modern styling tools:
 
-* **Frontend:** React.js, Tailwind CSS [cite: 6, 17]
-* **Backend:** Node.js, Express.js [cite: 6]
-* **Database:** MongoDB [cite: 6]
+* **Frontend:** React.js, Tailwind CSS 
+* **Backend:** Node.js, Express.js 
+* **Database:** MongoDB 
 * **Authentication:** JWT (JSON Web Tokens)
-* **Version Control:** Git & GitHub [cite: 6]
+* **Version Control:** Git & GitHub 
 
 ---
 
