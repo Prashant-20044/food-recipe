@@ -22,9 +22,9 @@ A full-stack, responsive web platform designed for culinary enthusiasts to disco
 ## ✨ Features
 
 * **Recipe Discovery:** Browse a diverse collection of recipes with detailed metadata such as preparation and cook times.
-* [cite_start]**User Authentication:** Secure login and sign-up functionality for a personalized user experience[cite: 14].
+* **User Authentication:** Secure login and sign-up functionality for a personalized user experience[cite: 14].
 * **Recipe Management:** Users can add, edit, and delete their own recipes, and save others to a "Favorites" list.
-* [cite_start]**Responsive Design:** Optimized for a seamless experience across mobile, tablet, and desktop devices[cite: 14].
+* **Responsive Design:** Optimized for a seamless experience across mobile, tablet, and desktop devices[cite: 14].
 * **Search & Filter:** Find recipes easily based on categories or ingredients.
 
 ---
@@ -33,8 +33,8 @@ A full-stack, responsive web platform designed for culinary enthusiasts to disco
 
 This project utilizes the **MERN** stack and modern styling tools:
 
-* [cite_start]**Frontend:** React.js, Tailwind CSS [cite: 6, 17]
-* [cite_start]**Backend:** Node.js, Express.js [cite: 6]
+* **Frontend:** React.js, Tailwind CSS [cite: 6, 17]
+* **Backend:** Node.js, Express.js [cite: 6]
 * **Database:** MongoDB [cite: 6]
 * **Authentication:** JWT (JSON Web Tokens)
 * **Version Control:** Git & GitHub [cite: 6]
