@@ -1,6 +1,6 @@
 # 🍳 Food Recipe Web Application
 
-A full-stack, responsive web platform designed for culinary enthusiasts to discover, share, and manage recipes. This project was developed as part of a **Full-Stack Development Virtual Internship** at **Mainflow Services and Technology Pvt. [cite_start]Ltd**.
+A full-stack, responsive web platform designed for culinary enthusiasts to discover, share, and manage recipes. This project was developed as part of a **Full-Stack Development Virtual Internship** at **Mainflow Services and Technology Pvt. Ltd**.
 
 ---
 
@@ -12,7 +12,12 @@ A full-stack, responsive web platform designed for culinary enthusiasts to disco
 ![Recipe Dashboard](https://github.com/Prashant-20044/food-recipe/blob/main/Screenshot%202026-01-11%20221912.png)
 *Recipe dashboard showing various dishes with cook times and "favorite" functionality.*
 
----
+![Add recipe](https://github.com/Prashant-20044/food-recipe/blob/main/Screenshot%202026-03-08%20145742.png)
+*users can add recipe of their choice*
+
+![login page](https://github.com/Prashant-20044/food-recipe/blob/main/Screenshot%202026-03-08%20145659.png)
+*user can login*
+
 
 ## ✨ Features
 
