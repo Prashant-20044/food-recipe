@@ -3,16 +3,20 @@ const Message = require("../models/message")
 const User = require("../models/user")
 
 const sendMessage = async (req, res) => {
-  const recipientId = req.params.id
   const senderId = req.user?.id
+  const recipientId = req.params.id
   const { text } = req.body
 
-  if (!text || !text.trim()) {
-    return res.status(400).json({ error: "Message text is required" })
+  if (!senderId) {
+    return res.status(401).json({ error: "Unauthorized" })
   }
 
   if (!recipientId || !mongoose.isValidObjectId(recipientId)) {
     return res.status(400).json({ error: "Invalid recipient id" })
+  }
+
+  if (!text || typeof text !== "string" || !text.trim()) {
+    return res.status(400).json({ error: "Message text is required" })
   }
 
   if (senderId === recipientId) {
@@ -30,67 +34,122 @@ const sendMessage = async (req, res) => {
     text: text.trim(),
   })
 
-  // Return the newly created message with sender populated so the frontend can use it immediately
-  const populated = await Message.findById(message._id).populate(
-    "sender",
-    "_id username email profilePic"
-  )
+  const populated = await Message.findById(message._id)
+    .populate("sender", "_id username email profilePic")
+    .populate("recipient", "_id username email profilePic")
 
   res.status(201).json(populated)
 }
 
 const getConversation = async (req, res) => {
-  const otherId = req.params.id
-  const myId = req.user?.id
+  const userId = req.user?.id
+  const otherUserId = req.params.id
 
-  if (!otherId || !mongoose.isValidObjectId(otherId)) {
+  if (!userId) {
+    return res.status(401).json({ error: "Unauthorized" })
+  }
+
+  if (!otherUserId || !mongoose.isValidObjectId(otherUserId)) {
     return res.status(400).json({ error: "Invalid user id" })
   }
 
-  const otherUser = await User.findById(otherId)
+  const otherUser = await User.findById(otherUserId)
   if (!otherUser) {
     return res.status(404).json({ error: "User not found" })
   }
 
   const messages = await Message.find({
     $or: [
-      { sender: myId, recipient: otherId },
-      { sender: otherId, recipient: myId },
+      { sender: userId, recipient: otherUserId },
+      { sender: otherUserId, recipient: userId },
     ],
   })
     .sort({ createdAt: 1 })
-    .populate("sender", "_id username email profilePic")
+    .populate("sender", "username profilePic email")
+    .populate("recipient", "username profilePic email")
 
   res.json(messages)
 }
 
 const getConversations = async (req, res) => {
-  const myId = req.user?.id
-
-  const messages = await Message.find({
-    $or: [{ sender: myId }, { recipient: myId }],
-  })
-    .sort({ createdAt: -1 })
-    .populate("sender", "_id username email profilePic")
-    .populate("recipient", "_id username email profilePic")
-
-  const seen = new Map()
-  const conversations = []
-
-  for (const msg of messages) {
-    const other = msg.sender._id.toString() === myId ? msg.recipient : msg.sender
-    const otherId = other._id.toString()
-
-    if (seen.has(otherId)) continue
-
-    seen.set(otherId, true)
-    conversations.push({
-      user: other,
-      lastMessage: msg,
-    })
+  const userId = req.user?.id
+  if (!userId) {
+    return res.status(401).json({ error: "Unauthorized" })
   }
 
-  res.json({ conversations })
+  const userObjId = new mongoose.Types.ObjectId(userId)
+
+  const conversations = await Message.aggregate([
+    { $match: { $or: [{ sender: userObjId }, { recipient: userObjId }] } },
+    {
+      $project: {
+        otherUser: {
+          $cond: [
+            { $eq: ["$sender", userObjId] },
+            "$recipient",
+            "$sender"
+          ]
+        },
+        sender: 1,
+        recipient: 1,
+        text: 1,
+        createdAt: 1
+      }
+    },
+    { $sort: { createdAt: -1 } },
+    {
+      $group: {
+        _id: "$otherUser",
+        lastMessage: { $first: "$$ROOT" },
+        unreadCount: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  { $eq: ["$recipient", userObjId] },
+                  { $ne: ["$sender", userObjId] }
+                ]
+              },
+              1,
+              0
+            ]
+          }
+        },
+        totalMessages: { $sum: 1 }
+      }
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "_id",
+        foreignField: "_id",
+        as: "user"
+      }
+    },
+    { $unwind: "$user" },
+    {
+      $project: {
+        user: {
+          _id: "$user._id",
+          username: "$user.username",
+          email: "$user.email",
+          profilePic: "$user.profilePic"
+        },
+        lastMessage: {
+          text: "$lastMessage.text",
+          sender: "$lastMessage.sender",
+          recipient: "$lastMessage.recipient",
+          createdAt: "$lastMessage.createdAt"
+        },
+        unreadCount: 1,
+        totalMessages: 1
+      }
+    }
+  ])
+
+  const totalUnread = conversations.reduce((acc, conv) => acc + (conv.unreadCount || 0), 0)
+
+  res.json({ conversations, unreadCount: totalUnread })
 }
 
 module.exports = { sendMessage, getConversation, getConversations }
