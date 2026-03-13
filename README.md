@@ -18,6 +18,22 @@ A full-stack, responsive web platform designed for culinary enthusiasts to disco
 ![login page](https://github.com/Prashant-20044/food-recipe/blob/main/Screenshot%202026-03-08%20145659.png)
 *user can login*
 
+![Recipe ](https://github.com/Prashant-20044/food-recipe/blob/main/Screenshot%202026-03-14%20011757.png)
+*Full recipe details*
+
+![comments](https://github.com/Prashant-20044/food-recipe/blob/main/Screenshot%202026-03-14%20011859.png)
+*User can add comments*
+
+![Profile](https://github.com/Prashant-20044/food-recipe/blob/main/Screenshot%202026-03-14%20011917.png)
+*User Profile*
+
+
+![Recipe ](https://github.com/Prashant-20044/food-recipe/blob/main/Screenshot%202026-03-14%20011757.png)
+*Full recipe details*
+
+![chats section](https://github.com/Prashant-20044/food-recipe/blob/main/Screenshot%202026-03-14%20011933.png)
+*Chats section*
+
 
 ## ✨ Features
 
