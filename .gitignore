@@ -1,12 +1,16 @@
 # Node modules
 node_modules/
 
+# Ignore legacy nested project folder
+foodRecipe/
+
 # Logs
 logs
 *.log
 npm-debug.log*
 yarn-debug.log*
 pnpm-debug.log*
+.mongodb-log/
 
 # Env files
 .env
@@ -15,6 +19,7 @@ pnpm-debug.log*
 # Build output
 dist/
 build/
+.mongodb-data/
 
 # VS Code
 .vscode/
