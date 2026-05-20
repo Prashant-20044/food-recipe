@@ -5,7 +5,7 @@
   "scripts": {
     "install:all": "npm install --prefix backend && npm install --prefix frontend/food-app",
     "dev": "npm run dev --prefix backend",
-    "start": "npm run start --prefix backend",
-    "build": "npm run build --prefix frontend/food-app"
+    "build": "npm run build --prefix frontend/food-app",
+    "start": "node backend/server.js"
   }
 }
