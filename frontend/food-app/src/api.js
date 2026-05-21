@@ -1,10 +1,12 @@
 import axios from 'axios'
 
-export const API_BASE_URL = 'http://localhost:5000'
+export const API_BASE_URL = 'https://tastenest-1.onrender.com'
 
 export const api = axios.create({
   baseURL: API_BASE_URL,
 })
+
+export const getImageUrl = (path) => `${API_BASE_URL}/images/${path}`
 
 export const getProfileImageUrl = (user) => {
   if (user?.profilePic) {

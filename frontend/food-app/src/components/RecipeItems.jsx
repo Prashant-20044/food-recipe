@@ -4,7 +4,7 @@ import { BsStopwatchFill } from "react-icons/bs";
 import { FaHeart } from "react-icons/fa6";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import axios from 'axios';
+import { api, getImageUrl } from '../api'
 
 export default function RecipeItems() {
     const recipes = useLoaderData();
@@ -22,7 +22,7 @@ export default function RecipeItems() {
     }, [recipes]);
 
     const onDelete = async (id) => {
-        await axios.delete(`http://localhost:5000/recipe/${id}`)
+        await api.delete(`/recipe/${id}`)
             .then((res) => console.log(res))
         setAllRecipes(recipes => recipes.filter(recipe => recipe._id !== id))
         let filterItem = favItems.filter(recipe => recipe._id !== id)
@@ -58,7 +58,7 @@ export default function RecipeItems() {
                     >
                         <div className='card-img-wrapper'>
                             <img
-                                src={`http://localhost:5000/images/${item.coverImage}`}
+                                src={getImageUrl(item.coverImage)}
                                 alt={item.title}
                             />
                             <div className='card-img-overlay'></div>

@@ -1,7 +1,7 @@
 import React from 'react'
 import profileImg from '../assets/profile.png'
 import { Link, useLoaderData, useNavigate } from 'react-router-dom'
-import { getProfileImageUrl } from '../api'
+import { getProfileImageUrl, getImageUrl } from '../api'
 
 export default function RecipeDetails() {
     const recipe = useLoaderData()
@@ -29,7 +29,7 @@ export default function RecipeDetails() {
             <h3 className='title'>{recipe.title}</h3>
 
             <img
-                src={`http://localhost:5000/images/${recipe.coverImage}`}
+                src={getImageUrl(recipe.coverImage)}
                 alt={recipe.title}
                 className='detail-image'
             />

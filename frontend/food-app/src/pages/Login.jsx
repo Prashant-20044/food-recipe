@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import Home from './Home'
+import { api } from '../api'
 
 export default function Login() {
   const [username, setUsername] = useState("")
@@ -36,7 +36,7 @@ export default function Login() {
         }
       }
 
-      const res = await axios.post(`http://localhost:5000/${endpoint}`, payload)
+      const res = await api.post(`/${endpoint}`, payload)
       localStorage.setItem("token", res.data.token)
       localStorage.setItem("user", JSON.stringify(res.data.user))
       navigate("/")
