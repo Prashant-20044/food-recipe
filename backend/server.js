@@ -21,7 +21,7 @@ app.use("/images", (req, res, next) => {
   if (parsed.ext) {
     const fallbackPath = path.join(parsed.dir, parsed.name)
     if (fs.existsSync(fallbackPath)) {
-      req.url = path.join("/images", parsed.name)
+      req.url = `/images/${parsed.name}`
       return next()
     }
   } else {
@@ -34,13 +34,14 @@ app.use("/images", (req, res, next) => {
     ]
     for (const candidate of fallbackCandidates) {
       if (fs.existsSync(candidate)) {
-        req.url = path.join("/images", path.basename(candidate))
+        req.url = `/images/${path.basename(candidate)}`
         return next()
       }
     }
   }
 
-  next()
+  const placeholderSvg = `<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 300">\n  <rect width="500" height="300" fill="#f4f4f4"/>\n  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#999" font-family="Arial, sans-serif" font-size="24">Image not found</text>\n</svg>`
+  return res.status(404).type("image/svg+xml").send(placeholderSvg)
 })
 
 // Serve static assets (images, profiles etc.)
