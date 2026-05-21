@@ -1,6 +1,7 @@
 const express=require("express")
 const app=express()
 const path=require("path")
+const fs=require("fs")
 require("dotenv").config({ path: path.resolve(__dirname, "../.env") })
 const connectDb=require("./config/connectionDb")
 const cors=require("cors")
@@ -9,6 +10,38 @@ const PORT=process.env.PORT || 3000
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cors())
+
+app.use("/images", (req, res, next) => {
+  const requestedPath = path.join(__dirname, "public", req.path)
+  if (fs.existsSync(requestedPath)) {
+    return next()
+  }
+
+  const parsed = path.parse(requestedPath)
+  if (parsed.ext) {
+    const fallbackPath = path.join(parsed.dir, parsed.name)
+    if (fs.existsSync(fallbackPath)) {
+      req.url = path.join("/images", parsed.name)
+      return next()
+    }
+  } else {
+    const fallbackCandidates = [
+      `${requestedPath}.jpg`,
+      `${requestedPath}.jpeg`,
+      `${requestedPath}.png`,
+      `${requestedPath}.webp`,
+      `${requestedPath}.avif`
+    ]
+    for (const candidate of fallbackCandidates) {
+      if (fs.existsSync(candidate)) {
+        req.url = path.join("/images", path.basename(candidate))
+        return next()
+      }
+    }
+  }
+
+  next()
+})
 
 // Serve static assets (images, profiles etc.)
 // Use a default image MIME type when files have missing extensions (uploaded by multer without extension).
