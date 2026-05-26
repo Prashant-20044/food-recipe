@@ -1,0 +1,158 @@
+.incoming-call-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.incoming-call-container {
+  perspective: 1000px;
+}
+
+.incoming-call-content {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 20px;
+  padding: 50px 40px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  animation: slideUp 0.4s ease-out;
+  max-width: 400px;
+  color: white;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px) scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+.caller-info {
+  margin-bottom: 30px;
+}
+
+.caller-icon {
+  width: 100px;
+  height: 100px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  animation: pulse 2s infinite;
+  color: white;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.caller-info h2 {
+  margin: 0 0 10px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.caller-name {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  opacity: 0.95;
+}
+
+.call-actions {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.btn-accept,
+.btn-decline {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  color: white;
+  font-size: 12px;
+}
+
+.btn-accept {
+  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+}
+
+.btn-accept:hover {
+  transform: scale(1.15);
+  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.5);
+}
+
+.btn-accept:active {
+  transform: scale(0.95);
+}
+
+.btn-decline {
+  background: linear-gradient(135deg, #f44336 0%, #da190b 100%);
+}
+
+.btn-decline:hover {
+  transform: scale(1.15);
+  box-shadow: 0 6px 20px rgba(244, 67, 54, 0.5);
+}
+
+.btn-decline:active {
+  transform: scale(0.95);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .incoming-call-content {
+    padding: 40px 30px;
+    max-width: 90vw;
+  }
+
+  .caller-icon {
+    width: 80px;
+    height: 80px;
+  }
+
+  .btn-accept,
+  .btn-decline {
+    width: 60px;
+    height: 60px;
+    font-size: 11px;
+  }
+}
