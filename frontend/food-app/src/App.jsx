@@ -3,7 +3,6 @@ import './App.css'
 import {createBrowserRouter,RouterProvider} from "react-router-dom"
 import Home from './pages/Home'
 import MainNavigation from './components/MainNavigation'
-import ChatBot from './components/ChatBot'
 import { CallProvider } from './context/CallContext'
 import { api } from './api'
 import  AddFoodRecipe  from './pages/AddFoodRecipe'
@@ -74,7 +73,6 @@ export default function App() {
   return (
    <CallProvider>
      <RouterProvider router={router}></RouterProvider>
-     <ChatBot />
    </CallProvider>
   )
 }
