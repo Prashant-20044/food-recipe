@@ -1,0 +1,13 @@
+{
+  "name": "tastenest",
+  "version": "1.0.0",
+  "description": "TasteNest - Food Recipe Social Media App",
+  "scripts": {
+    "start": "cd backend && node server.js",
+    "build": "cd backend && npm install && cd ../frontend/food-app && npm install && npm run build",
+    "dev": "cd backend && npm run dev"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
