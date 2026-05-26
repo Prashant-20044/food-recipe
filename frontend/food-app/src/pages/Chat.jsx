@@ -84,14 +84,16 @@ export default function Chat() {
     <div className='messages-shell'>
       <section className='chat-panel'>
         <div className='chat-topbar'>
-          <button className='back-link-button' onClick={() => navigate('/messages')} aria-label='Back to messages'>
-            <ArrowLeft size={18} />
-            Back
-          </button>
-          {otherUser && <img src={getProfileImageUrl(otherUser)} alt={otherUser.username} />}
-          <div>
-            <h2>{otherUser?.username || 'Message'}</h2>
-            <p>{otherUser?.email || 'Private conversation'}</p>
+          <div className='chat-topbar-left'>
+            <button className='back-link-button' onClick={() => navigate('/messages')} aria-label='Back to messages'>
+              <ArrowLeft size={18} />
+              Back
+            </button>
+            {otherUser && <img src={getProfileImageUrl(otherUser)} alt={otherUser.username} />}
+            <div className='chat-user-info'>
+              <h2>{otherUser?.username || 'Message'}</h2>
+              <p>{otherUser?.email || 'Private conversation'}</p>
+            </div>
           </div>
           <button 
             className='video-call-btn' 
