@@ -121,6 +121,20 @@ export default function VideoCallModal({
     }, 600)
   }, [teardown])
 
+  const remoteStreamRef = useRef(null)
+
+  /* ── Attach streams when UI becomes active ────────────────── */
+  useEffect(() => {
+    if (callState === 'active') {
+      if (localVideoRef.current && localStreamRef.current) {
+        localVideoRef.current.srcObject = localStreamRef.current
+      }
+      if (remoteVideoRef.current && remoteStreamRef.current) {
+        remoteVideoRef.current.srcObject = remoteStreamRef.current
+      }
+    }
+  }, [callState])
+
   /* ── Build a fresh RTCPeerConnection ────────────────────────── */
   const buildPC = useCallback((rtcConfig = STUN_ONLY_CONFIG) => {
     if (pcRef.current) { pcRef.current.close(); pcRef.current = null }
@@ -136,9 +150,10 @@ export default function VideoCallModal({
 
     pc.ontrack = (e) => {
       const [stream] = e.streams
-      if (stream && remoteVideoRef.current) {
-        remoteVideoRef.current.srcObject = stream
+      if (stream) {
+        remoteStreamRef.current = stream
         setHasRemoteStream(true)
+        if (remoteVideoRef.current) remoteVideoRef.current.srcObject = stream
       }
     }
 
