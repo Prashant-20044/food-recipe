@@ -27,7 +27,7 @@
   bottom: 90px;
   right: 20px;
   width: 400px;
-  max-height: 600px;
+  max-height: calc(100vh - 120px);
   background: white;
   border-radius: 12px;
   box-shadow: 0 5px 40px rgba(0, 0, 0, 0.16);
