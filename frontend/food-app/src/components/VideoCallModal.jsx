@@ -53,6 +53,7 @@ export default function VideoCallModal({
   const timerRef = useRef(null)
   const closingRef = useRef(false)
   const iceQueueRef = useRef([])
+  const pendingSignalsRef = useRef([]) // Queue signals if PC isn't ready
   const didInitRef = useRef(false)
 
   // ── Store latest props in refs so effects don't re-run ──────
@@ -93,6 +94,7 @@ export default function VideoCallModal({
     if (localVideoRef.current) localVideoRef.current.srcObject = null
     if (remoteVideoRef.current) remoteVideoRef.current.srcObject = null
     iceQueueRef.current = []
+    pendingSignalsRef.current = []
     setHasRemoteStream(false)
 
     if (notify) {
@@ -198,7 +200,11 @@ export default function VideoCallModal({
     const onOffer = async ({ offer }) => {
       console.log('[WebRTC] Received offer')
       const pc = pcRef.current
-      if (!pc) return
+      if (!pc) {
+        console.log('[WebRTC] PC not ready, queueing offer')
+        pendingSignalsRef.current.push({ type: 'offer', data: offer })
+        return
+      }
       try {
         await pc.setRemoteDescription(new RTCSessionDescription(offer))
         // flush queued ICE
@@ -216,7 +222,11 @@ export default function VideoCallModal({
     const onAnswer = async ({ answer }) => {
       console.log('[WebRTC] Received answer')
       const pc = pcRef.current
-      if (!pc) return
+      if (!pc) {
+        console.log('[WebRTC] PC not ready, queueing answer')
+        pendingSignalsRef.current.push({ type: 'answer', data: answer })
+        return
+      }
       try {
         await pc.setRemoteDescription(new RTCSessionDescription(answer))
         for (const c of iceQueueRef.current) await pc.addIceCandidate(new RTCIceCandidate(c))
@@ -228,7 +238,10 @@ export default function VideoCallModal({
 
     const onIceCandidate = async ({ candidate }) => {
       const pc = pcRef.current
-      if (!pc) return
+      if (!pc) {
+        pendingSignalsRef.current.push({ type: 'candidate', data: candidate })
+        return
+      }
       try {
         if (pc.remoteDescription && pc.remoteDescription.type) {
           await pc.addIceCandidate(new RTCIceCandidate(candidate))
@@ -283,8 +296,17 @@ export default function VideoCallModal({
           })
           console.log('[WebRTC] call-user emitted')
         } else {
-          console.log('[WebRTC] Recipient ready, waiting for offer...')
+          console.log('[WebRTC] Recipient ready, wait or process queued signals...')
         }
+
+        // Process any signals that arrived while we were initializing
+        for (const signal of pendingSignalsRef.current) {
+          console.log(`[WebRTC] Processing queued signal: ${signal.type}`)
+          if (signal.type === 'offer') await onOffer({ offer: signal.data })
+          else if (signal.type === 'answer') await onAnswer({ answer: signal.data })
+          else if (signal.type === 'candidate') await onIceCandidate({ candidate: signal.data })
+        }
+        pendingSignalsRef.current = []
       } catch (err) {
         console.error('[WebRTC] Init error:', err)
         if (err.name === 'NotAllowedError' || err.name === 'NotFoundError') {
