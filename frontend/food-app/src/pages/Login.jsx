@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { GoogleLogin } from '@react-oauth/google'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import Home from './Home'
 import { api } from '../api'
 
@@ -16,6 +16,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false)
   const [sendingCode, setSendingCode] = useState(false)
   const navigate = useNavigate()
+  const location = useLocation()
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0 })
@@ -44,7 +45,7 @@ export default function Login() {
       const res = await api.post(`/${endpoint}`, payload)
       localStorage.setItem("token", res.data.token)
       localStorage.setItem("user", JSON.stringify(res.data.user))
-      navigate("/")
+      navigate(location.state?.from?.pathname || "/", { replace: true })
     } catch (data) {
       setError(data.response?.data?.message || data.response?.data?.error || "An error occurred")
     } finally {
@@ -86,7 +87,7 @@ export default function Login() {
       })
       localStorage.setItem("token", res.data.token)
       localStorage.setItem("user", JSON.stringify(res.data.user))
-      navigate("/")
+      navigate(location.state?.from?.pathname || "/", { replace: true })
     } catch (data) {
       setError(data.response?.data?.message || data.response?.data?.error || data.message || "Google sign in failed")
     } finally {
