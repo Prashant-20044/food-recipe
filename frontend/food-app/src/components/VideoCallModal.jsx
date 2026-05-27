@@ -128,6 +128,7 @@ export default function VideoCallModal({
     localVideoRef.current = node
     if (node && localStreamRef.current) {
       node.srcObject = localStreamRef.current
+      node.play().catch(err => console.warn('[WebRTC] Local video play failed:', err))
     }
   }, [])
 
@@ -135,6 +136,7 @@ export default function VideoCallModal({
     remoteVideoRef.current = node
     if (node && remoteStreamRef.current) {
       node.srcObject = remoteStreamRef.current
+      node.play().catch(err => console.warn('[WebRTC] Remote video play failed:', err))
     }
   }, [])
 
@@ -164,8 +166,9 @@ export default function VideoCallModal({
       }
       
       setHasRemoteStream(true)
-      if (remoteVideoRef.current && remoteVideoRef.current.srcObject !== stream) {
+      if (remoteVideoRef.current) {
         remoteVideoRef.current.srcObject = stream
+        remoteVideoRef.current.play().catch(err => console.warn('[WebRTC] Remote track play failed:', err))
       }
     }
 
