@@ -305,7 +305,18 @@ export default function VideoCallModal({
         setCallState(callMode === 'outgoing' ? 'calling' : 'loading')
         setStatusText(callMode === 'outgoing' ? `Calling ${rname || 'user'}...` : 'Connecting...')
 
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: {
+            width: { ideal: 640 },
+            height: { ideal: 480 },
+            frameRate: { ideal: 24, max: 30 }
+          },
+          audio: {
+            echoCancellation: true,
+            noiseSuppression: true,
+            autoGainControl: true
+          }
+        })
         if (!mounted) { stream.getTracks().forEach((t) => t.stop()); return }
 
         localStreamRef.current = stream
