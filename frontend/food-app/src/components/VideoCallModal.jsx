@@ -123,17 +123,20 @@ export default function VideoCallModal({
 
   const remoteStreamRef = useRef(null)
 
-  /* ── Attach streams when UI becomes active ────────────────── */
-  useEffect(() => {
-    if (callState === 'active') {
-      if (localVideoRef.current && localStreamRef.current) {
-        localVideoRef.current.srcObject = localStreamRef.current
-      }
-      if (remoteVideoRef.current && remoteStreamRef.current) {
-        remoteVideoRef.current.srcObject = remoteStreamRef.current
-      }
+  /* ── Video Callback Refs to safely attach streams ────────────── */
+  const setLocalVideoRef = useCallback((node) => {
+    localVideoRef.current = node
+    if (node && localStreamRef.current) {
+      node.srcObject = localStreamRef.current
     }
-  }, [callState])
+  }, [])
+
+  const setRemoteVideoRef = useCallback((node) => {
+    remoteVideoRef.current = node
+    if (node && remoteStreamRef.current) {
+      node.srcObject = remoteStreamRef.current
+    }
+  }, [])
 
   /* ── Build a fresh RTCPeerConnection ────────────────────────── */
   const buildPC = useCallback((rtcConfig = STUN_ONLY_CONFIG) => {
@@ -149,11 +152,20 @@ export default function VideoCallModal({
     }
 
     pc.ontrack = (e) => {
-      const [stream] = e.streams
-      if (stream) {
+      let stream = e.streams && e.streams[0]
+      if (!stream) {
+        if (!remoteStreamRef.current) {
+          remoteStreamRef.current = new MediaStream()
+        }
+        remoteStreamRef.current.addTrack(e.track)
+        stream = remoteStreamRef.current
+      } else {
         remoteStreamRef.current = stream
-        setHasRemoteStream(true)
-        if (remoteVideoRef.current) remoteVideoRef.current.srcObject = stream
+      }
+      
+      setHasRemoteStream(true)
+      if (remoteVideoRef.current && remoteVideoRef.current.srcObject !== stream) {
+        remoteVideoRef.current.srcObject = stream
       }
     }
 
@@ -388,12 +400,12 @@ export default function VideoCallModal({
 
             <div className="video-grid">
               <div className="video-container remote">
-                <video ref={remoteVideoRef} autoPlay playsInline className="video-player" />
+                <video ref={setRemoteVideoRef} autoPlay playsInline className="video-player" />
                 {!hasRemoteStream && <span className="video-placeholder">Waiting for video...</span>}
                 <span className="video-label">{recipientName || 'Guest'}</span>
               </div>
               <div className="video-container local">
-                <video ref={localVideoRef} autoPlay playsInline muted className="video-player" />
+                <video ref={setLocalVideoRef} autoPlay playsInline muted className="video-player" />
                 <span className="video-label">You</span>
               </div>
             </div>
