@@ -2279,11 +2279,16 @@ header.scrolled .nav-profile-search input:focus {
    ============================================================ */
 @media (max-width: 768px) {
   header {
-    padding: 0 1rem;
+    padding: 8px 1rem;
     gap: 8px;
+    height: auto;
+    min-height: 70px;
+    flex-wrap: wrap;
   }
   header ul {
-    gap: 2px;
+    gap: 4px;
+    flex-wrap: wrap;
+    justify-content: center;
   }
   .nav-profile-search {
     min-width: 140px;
@@ -2354,6 +2359,18 @@ header.scrolled .nav-profile-search input:focus {
   .chat-panel {
     height: calc(100vh - 120px);
   }
+  .modal {
+    flex-direction: column;
+    width: 95%;
+    min-height: auto;
+  }
+  .modal-decor {
+    display: none;
+  }
+  .modal-form-panel {
+    width: 100%;
+    padding: 32px 20px 24px;
+  }
   .login-overlay-backdrop {
     align-items: flex-start;
     padding: 92px 18px 28px;
@@ -2373,14 +2390,15 @@ header.scrolled .nav-profile-search input:focus {
 
 @media (max-width: 480px) {
   header h2 {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
   }
   header {
-    padding: 0 0.55rem;
+    padding: 8px 0.55rem;
   }
   .nav-profile-search {
     min-width: 94px;
-    max-width: 128px;
+    max-width: 100%;
+    flex: 1;
   }
   .nav-profile-search input {
     padding: 0 10px;

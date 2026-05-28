@@ -1,0 +1,44 @@
+# TasteNest - Project Theory
+
+This document covers the theoretical architecture and implementation details of complex features within the TasteNest application.
+
+## Chatbot Architecture: Retrieval-Augmented Generation (RAG)
+
+The cooking assistant chatbot in TasteNest is not simply a passthrough to an AI model like ChatGPT. Instead, it utilizes a powerful architecture known as **Retrieval-Augmented Generation (RAG)**. 
+
+In a standard chatbot, the AI answers based solely on its pre-trained global knowledge. In a RAG system, the application first *retrieves* relevant data from your own private database and then feeds that localized context to the AI to *generate* an answer that is specifically tailored to your application's actual content.
+
+Here is the step-by-step breakdown of how this pipeline is implemented in the TasteNest backend (`chatbot.js`):
+
+### 1. Keyword Extraction (NLP)
+When a user submits a question (e.g., *"How do I make a spicy chicken pasta?"*), the backend controller does not send that raw string to the database.
+*   **Stop Words Filtering:** The system filters out common, low-value words using a predefined `STOP_WORDS` set (e.g., "how", "do", "i", "make", "a").
+*   **Tokenization & Cleaning:** It cleans punctuation and tokenizes the remaining string into an array of core search terms: `["spicy", "chicken", "pasta"]`.
+
+### 2. Context Retrieval & Scoring (Database Search)
+The system then searches the MongoDB `Recipe` collection for these keywords using MongoDB Regular Expressions (`$regex`).
+Because a naive broad search might return unstructured results, the codebase employs a custom **Weighted Scoring Algorithm** to rank the retrieved recipes:
+*   **Title Match (+4 points):** If a term like "chicken" appears in the recipe title, it is deemed highly relevant.
+*   **Category Match (+2 points):** If "pasta" is the category, it is moderately relevant.
+*   **Ingredient Match (+1 point):** If "spicy" is merely listed in the ingredients, it receives a minor relevancy boost.
+
+The application calculates the total score for all matched recipes, sorts them descending by score, and extracts the **top 5 most relevant recipes** from the database.
+
+### 3. Prompt Engineering (Context Formulation)
+The backend then constructs a formatted text string called `recipeContext`. It iterates over the top 5 retrieved recipes and formats their data (title, category, time, and ingredients) so the LLM can easily parse them:
+> *"1. Spicy Chicken Pasta | Category: Dinner | Time: 30m | Ingredients: chicken breasts, pasta, chili flakes..."*
+
+### 4. The LLM API Request (AI Generation)
+The backend makes a secure server-to-server request to the **OpenRouter API** (utilizing a model such as `gpt-4o-mini`). The payload is structured with strict instructions:
+*   **System Prompt:** Provides the AI with a persona and constraints (e.g., "You are a practical cooking assistant inside a recipe app. Answer with clear numbered steps. Do not invent recipes not found in the context.").
+*   **User Prompt:** Combines the user's original question with the formulated `recipeContext`.
+
+### 5. Frontend Rendering (UI Presentation)
+*   The AI processes the proprietary recipe context and formulates a step-by-step cooking guide explicitly based on the app's database.
+*   The backend returns a JSON payload containing the AI's generated text answer alongside the array of the top 5 `suggestedRecipes` objects.
+*   In the React frontend (`ChatBot.jsx`), the application displays the AI's text in a chat bubble and renders the `suggestedRecipes` as clickable, visual UI cards below the message. This allows users to seamlessly navigate directly to the referenced recipe post within the application.
+
+---
+
+### Interview Talking Point
+If asked to describe a complex feature, explain that you built a **RAG pipeline** that bridges your proprietary MongoDB data with a Large Language Model. Emphasize that you didn't just use an API wrapper; you implemented custom keyword extraction, search heuristics, and weighted scoring algorithms to create a context-aware AI assistant that drives user engagement with the app's content.
