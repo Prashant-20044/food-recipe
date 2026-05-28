@@ -27,7 +27,12 @@ export default function Chats() {
         const res = await api.get('/message', {
           headers: { Authorization: `Bearer ${token}` }
         })
-        setConversations(res.data.conversations || [])
+        const sortedConversations = (res.data.conversations || []).sort((a, b) => {
+          const dateA = new Date(a.lastMessage?.createdAt || 0);
+          const dateB = new Date(b.lastMessage?.createdAt || 0);
+          return dateB - dateA;
+        });
+        setConversations(sortedConversations)
       } catch (err) {
         setError(err.response?.data?.message || err.response?.data?.error || 'Unable to load messages')
       } finally {
