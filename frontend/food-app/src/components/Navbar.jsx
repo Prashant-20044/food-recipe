@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { MessageCircle } from 'lucide-react'
+import { Send } from 'lucide-react'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { api, getProfileImageUrl } from '../api'
 
@@ -180,7 +180,7 @@ export default function Navbar() {
                 aria-label={unreadMessages > 0 ? `Open messages, ${unreadMessages} unread` : 'Open messages'}
                 title='Messages'
               >
-                <MessageCircle size={21} strokeWidth={2.4} />
+                <Send size={21} strokeWidth={2.4} />
                 {unreadMessages > 0 && (
                   <span className='nav-message-badge'>
                     {unreadMessages > 99 ? '99+' : unreadMessages}
