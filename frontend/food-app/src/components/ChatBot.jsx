@@ -3,6 +3,7 @@ import { MessageCircle, X, Send } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { api, getImageUrl } from '../api'
 import '../styles/ChatBot.css'
+import ReactMarkdown from 'react-markdown'
 
 export default function ChatBot() {
   const [isOpen, setIsOpen] = useState(false)
@@ -78,7 +79,9 @@ export default function ChatBot() {
           <div className="chatbot-messages">
             {messages.map((msg) => (
               <div key={msg.id} className={`message ${msg.sender}`}>
-                <p>{msg.text}</p>
+                <div className="message-content">
+                  <ReactMarkdown>{msg.text}</ReactMarkdown>
+                </div>
               </div>
             ))}
             {loading && (
