@@ -2,7 +2,7 @@
 
 ## 📖 Overview
 TasteNest is a full-stack, real-time food recipe platform built with the modern MERN (MongoDB, Express, React, Node.js) stack. It goes beyond traditional recipe sharing by integrating an AI chatbot for culinary assistance and real-time WebRTC video calling, allowing users to connect, cook together, and share their culinary journeys live.
-
+## TRY IT ON-https://food-recipe-fgub.onrender.com/
 ## ✨ Features
 - **User Authentication & Authorization**: Secure login and registration using JWT and Google OAuth integration. Role-based access control with protected routes.
 - **Recipe Management (CRUD)**: Easily create, read, update, and delete delicious recipes.
