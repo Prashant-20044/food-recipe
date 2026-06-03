@@ -14,12 +14,10 @@ TasteNest is a full-stack, real-time food recipe platform built with the modern 
 
 ## 💻 Tech Stack
 **Frontend:**
-- React 18 (Vite)
+- React (Vite)
 - React Router DOM
 - Socket.io-client
 - React Markdown
-- Lucide React & React Icons
-- Vanilla CSS
 
 **Backend:**
 - Node.js & Express.js
@@ -29,8 +27,7 @@ TasteNest is a full-stack, real-time food recipe platform built with the modern 
 - Cloudinary & Multer (Media Storage)
 - JWT, Bcrypt, Google Auth Library
 
-## 📸 Screenshots
-> **Note**: Add your screenshots to a `screenshots` folder in the root directory and replace the paths below, or simply drop your images directly into the GitHub editor.
+
 
 ## 📸 Screenshots
 
@@ -93,5 +90,3 @@ TasteNest is a full-stack, real-time food recipe platform built with the modern 
 ## 🤝 Contributing
 Contributions, issues, and feature requests are welcome! Feel free to check the issues page.
 
-## 📝 License
-This project is [ISC](https://choosealicense.com/licenses/isc/) licensed.
