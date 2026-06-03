@@ -34,11 +34,9 @@ TasteNest is a full-stack, real-time food recipe platform built with the modern 
 
 | Feature | Screenshot |
 |---------|------------|
-| **Landing Page** | `![Landing Page](./screenshots/landing.png)` |
-| **Recipe Details** | `![Recipe Details](./screenshots/recipe_details.png)` |
-| **Real-Time Video Call** | `![Video Call](./screenshots/video_call.png)` |
-| **AI Chatbot** | `![AI Chatbot](./screenshots/chatbot.png)` |
-| **Login/Auth** | `![Login Screen](./screenshots/login.png)` |
+| **Landing Page** | `![Landing Page](./Screenshot 2026-06-03 211325.png)` |
+| **Recipe Details** | `![Recipe Details](./Screenshot 2026-06-03 211349.png)` |
+| **AI Chatbot** | `![AI Chatbot](./Screenshot 2026-06-03 211440.png)` |
 
 ## 🚀 Getting Started
 
