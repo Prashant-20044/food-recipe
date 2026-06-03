@@ -32,11 +32,16 @@ TasteNest is a full-stack, real-time food recipe platform built with the modern 
 ## 📸 Screenshots
 > **Note**: Add your screenshots to a `screenshots` folder in the root directory and replace the paths below, or simply drop your images directly into the GitHub editor.
 
-| Feature | Screenshot |
-|---------|------------|
-| **Landing Page** | `![Landing Page](./Screenshot 2026-06-03 211325.png)` |
-| **Recipe Details** | `![Recipe Details](./Screenshot 2026-06-03 211349.png)` |
-| **AI Chatbot** | `![AI Chatbot](./Screenshot 2026-06-03 211440.png)` |
+## 📸 Screenshots
+
+### Landing Page
+![Landing Page](Screenshot%202026-06-03%20211325.png)
+
+### Recipe Details
+![Recipe Details](Screenshot%202026-06-03%20211349.png)
+
+### AI Chatbot
+![AI Chatbot](Screenshot%202026-06-03%20211440.png)
 
 ## 🚀 Getting Started
 
